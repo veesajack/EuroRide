@@ -6,9 +6,9 @@
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
+    "vercel-build": "echo 'Building backend'",
     "test": "jest --runInBand --detectOpenHandles",
-    "lint": "eslint .",
-    "build": "echo 'No build step required for backend'"
+    "lint": "eslint ."
   },
   "engines": {
     "node": ">=16.0.0"
