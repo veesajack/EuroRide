@@ -1,5 +1,10 @@
 {
+  "framework": "create-react-app",
   "version": 2,
+  "buildCommand": "npm run build",
+  "devCommand": "npm start",
+  "installCommand": "npm install --legacy-peer-deps",
+  "outputDirectory": "build",
   "builds": [
     {
       "src": "package.json",
@@ -29,6 +34,7 @@
     }
   ],
   "env": {
-    "CI": "false"
+    "CI": "false",
+    "NODE_ENV": "production"
   }
 }
