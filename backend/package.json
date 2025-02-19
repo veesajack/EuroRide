@@ -1,7 +1,7 @@
 {
-  "name": "bikeride-backend",
+  "name": "euroride-backend",
   "version": "1.0.0",
-  "description": "Backend for BikeRide application",
+  "description": "Backend for EuroRide application",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
