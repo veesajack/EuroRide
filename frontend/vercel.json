@@ -1,40 +1,11 @@
 {
-  "framework": "create-react-app",
   "version": 2,
-  "buildCommand": "npm run build",
-  "devCommand": "npm start",
-  "installCommand": "npm install --legacy-peer-deps",
+  "framework": "create-react-app",
+  "buildCommand": "CI=false GENERATE_SOURCEMAP=false npm run build",
+  "installCommand": "npm install --legacy-peer-deps --no-optional",
   "outputDirectory": "build",
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "build",
-        "installCommand": "npm install --legacy-peer-deps"
-      }
-    }
-  ],
   "routes": [
-    {
-      "src": "/static/(.*)",
-      "dest": "/static/$1"
-    },
-    {
-      "src": "/favicon.ico",
-      "dest": "/favicon.ico"
-    },
-    {
-      "src": "/manifest.json",
-      "dest": "/manifest.json"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
-    }
-  ],
-  "env": {
-    "CI": "false",
-    "NODE_ENV": "production"
-  }
+    { "handle": "filesystem" },
+    { "src": "/[^.]+", "dest": "/", "status": 200 }
+  ]
 }
