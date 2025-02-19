@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BikeRide - Book Your Ride</title>
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div id="app">
+        <nav class="navbar">
+            <div class="logo">BikeRide</div>
+            <div class="nav-links">
+                <button id="loginBtn">Login</button>
+                <button id="registerBtn">Register</button>
+            </div>
+        </nav>
+
+        <main>
+            <div id="map"></div>
+            <div class="ride-panel">
+                <h2>Book a Ride</h2>
+                <div class="input-group">
+                    <input type="text" id="pickup" placeholder="Pickup Location">
+                    <input type="text" id="destination" placeholder="Destination">
+                </div>
+                <button id="bookRideBtn" class="primary-btn">Book Now</button>
+            </div>
+        </main>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <!-- Custom JS -->
+    <script src="/js/map.js"></script>
+    <script src="/js/app.js"></script>
+</body>
+</html>
