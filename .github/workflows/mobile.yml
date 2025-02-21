@@ -1,0 +1,117 @@
+name: Mobile CI/CD
+
+on:
+  push:
+    branches: [ main, master, develop ]
+    paths:
+      - 'mobile/**'
+      - '.github/workflows/mobile.yml'
+  pull_request:
+    branches: [ main, master, develop ]
+    paths:
+      - 'mobile/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+        cache-dependency-path: mobile/package-lock.json
+
+    - name: Install dependencies
+      run: |
+        cd mobile
+        npm ci
+
+    - name: Run linting
+      run: |
+        cd mobile
+        npm run lint
+
+    - name: Run tests
+      run: |
+        cd mobile
+        npm test
+      env:
+        CI: true
+
+  build-android:
+    needs: test
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16.x'
+
+    - name: Setup Java
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+        distribution: 'adopt'
+
+    - name: Install dependencies
+      run: |
+        cd mobile
+        npm ci
+
+    - name: Build Android Release
+      run: |
+        cd mobile/android
+        ./gradlew assembleRelease
+
+    - name: Upload Android Release
+      uses: actions/upload-artifact@v3
+      with:
+        name: app-release
+        path: mobile/android/app/build/outputs/apk/release/
+
+  build-ios:
+    needs: test
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16.x'
+
+    - name: Install dependencies
+      run: |
+        cd mobile
+        npm ci
+
+    - name: Install CocoaPods
+      run: |
+        cd mobile/ios
+        pod install
+
+    - name: Build iOS Release
+      run: |
+        cd mobile/ios
+        xcodebuild -workspace EuroRide.xcworkspace -scheme EuroRide archive -archivePath EuroRide.xcarchive
+        xcodebuild -exportArchive -archivePath EuroRide.xcarchive -exportOptionsPlist ExportOptions.plist -exportPath ./build
+
+    - name: Upload iOS Release
+      uses: actions/upload-artifact@v3
+      with:
+        name: ios-release
+        path: mobile/ios/build/
