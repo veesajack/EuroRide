@@ -16,8 +16,14 @@ function App() {
     <Provider store={store}>
       <Router>
         <div className="App">
+          <Navbar />
           <Routes>
-            <Route path="/" element={<RideBooking />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/book" element={<RideBooking />} />
+            <Route path="/history" element={<RideHistory />} />
+            <Route path="/profile" element={<Profile />} />
           </Routes>
         </div>
       </Router>
